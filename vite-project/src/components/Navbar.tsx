@@ -4,201 +4,137 @@ import { useState, useEffect, useRef } from "react";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const observerRef = useRef<IntersectionObserver | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
     { name: "Accueil", href: "#", id: "home" },
-    { name: "A propos", href: "#apropos", id: "apropos" },
-    { name: "Mes experiences", href: "#experiences", id: "experiences" },
-    { name: "Mes projets", href: "#projets", id: "projets" },
+    { name: "À propos", href: "#apropos", id: "apropos" },
+    { name: "Expériences", href: "#experiences", id: "experiences" },
+    { name: "Projets", href: "#projets", id: "projets" },
     { name: "Contact", href: "#contact", id: "contact" },
   ];
 
   useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: "-100px 0px -100px 0px", 
-      threshold: 0.1,
-    };
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    observerRef.current = new IntersectionObserver(handleIntersect, options);
-
-    navLinks.forEach((link) => {
-      const element = document.getElementById(link.id);
-      if (element) {
-        observerRef.current?.observe(element);
-      }
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY < 50) {
-        setActiveSection("home");
-      }
+      setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavClick = (href: string, id: string) => {
     setIsMenuOpen(false);
-    
-    if (href === "#") {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setActiveSection("home");
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-        
-        setActiveSection(id);
-      }
+    if (href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setActiveSection("home");
+      return;
+    }
+
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = el.offsetTop - 80;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+      setActiveSection(id);
     }
   };
 
-  // Fermer le menu quand on clique en dehors
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (isMenuOpen && !target.closest('.mobile-menu') && !target.closest('.menu-button')) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isMenuOpen]);
-
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-800">
-      {/* MODIFICATION ICI : justify-between sur TOUS les écrans */}
-      <div className="flex justify-between items-center p-4 container mx-auto">
-        
-        {/* Logo/Title - reste à gauche */}
-        <a 
-          href="#" 
-          className="flex items-center font-bold text-2xl md:text-xl hover:text-accent transition-colors"
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300
+        ${isScrolled
+          ? "bg-white dark:bg-gray-900 shadow-md border-b"
+          : "bg-transparent"}
+      `}
+    >
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <a
+          href="#"
           onClick={(e) => {
             e.preventDefault();
             handleNavClick("#", "home");
           }}
+          className="flex items-center font-bold text-2xl tracking-wide"
         >
-          <Container className="mr-2 w-7 h-7 md:w-6 md:h-6"/>
-          ALPHA<span className="text-accent">DEV</span>
+          <Container className="w-6 h-6 mr-2 text-accent" />
+          ALPHA<span className="text-accent">TECH</span>
         </a>
 
-        {/* Navigation desktop - reste à droite */}
-        <div className="hidden md:flex items-center space-x-1">
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <button
-              key={link.name}
+              key={link.id}
               onClick={() => handleNavClick(link.href, link.id)}
-              className={`
-                relative px-5 py-3 rounded-lg transition-all duration-300
-                font-medium whitespace-nowrap
-                ${activeSection === link.id 
-                  ? 'text-accent font-bold' 
-                  : 'text-gray-700 dark:text-gray-300 hover:text-accent'
+              className={`relative font-medium transition
+                ${
+                  activeSection === link.id
+                    ? "text-accent"
+                    : "text-gray-700 dark:text-gray-300 hover:text-accent"
                 }
-                group
               `}
             >
               {link.name}
-
-              <div className={`
-                absolute bottom-0 left-1/2 transform -translate-x-1/2
-                h-1 w-12 rounded-full
-                transition-all duration-300
-                ${activeSection === link.id 
-                  ? 'bg-accent scale-100 opacity-100' 
-                  : 'bg-accent/0 scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-50'
-                }
-              `} />
+              {activeSection === link.id && (
+                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-accent rounded-full" />
+              )}
             </button>
           ))}
         </div>
 
-        {/* Bouton menu mobile - toujours visible sur mobile */}
-        <button 
-          className="md:hidden btn btn-ghost btn-circle menu-button"
-          onClick={(e) => {
-            e.stopPropagation(); // Empêcher la propagation pour éviter la fermeture immédiate
-            setIsMenuOpen(!isMenuOpen);
-          }}
-          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+        
+        <button
+          onClick={() => setIsMenuOpen(true)}
+          className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800"
         >
-          {isMenuOpen ? (
-            <X className="w-7 h-7 text-gray-700 dark:text-gray-300" />
-          ) : (
-            <Menu className="w-7 h-7 text-gray-700 dark:text-gray-300" />
-          )}
+          <Menu className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Menu mobile - MODIFICATION : n'occupe que la moitié */}
+      {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden mobile-menu fixed right-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white dark:bg-gray-900 shadow-xl border-l border-gray-200 dark:border-gray-800 z-50 overflow-y-auto">
-          <div className="flex flex-col py-4">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => handleNavClick(link.href, link.id)}
-                className={`
-                  flex items-center justify-between py-4 px-6
-                  transition-all duration-200 text-left
-                  font-medium hover:bg-gray-100 dark:hover:bg-gray-800
-                  ${activeSection === link.id
-                    ? 'bg-accent/10 text-accent border-r-4 border-accent'
-                    : 'text-gray-700 dark:text-gray-300'
-                  }
-                `}
-              >
-                <span className="text-lg">{link.name}</span>
-                {activeSection === link.id && (
-                  <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-                )}
+        <div className="md:hidden">
+          <div
+            className="fixed inset-0 bg-black/60 z-40"
+            onClick={() => setIsMenuOpen(false)}
+          />
+
+          <div
+            ref={menuRef}
+            className="fixed right-0 top-0 h-full w-72
+                       bg-white dark:bg-gray-900
+                       z-50 shadow-xl p-6"
+          >
+            <div className="flex justify-between items-center mb-8">
+              <span className="font-bold text-xl">
+                ALPHA<span className="text-accent">TECH</span>
+              </span>
+              <button onClick={() => setIsMenuOpen(false)}>
+                <X className="w-6 h-6" />
               </button>
-            ))}
-            
-            {/* Section supplémentaire pour remplir l'espace si nécessaire */}
-            <div className="mt-auto px-6 py-4 border-t border-gray-200 dark:border-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Portfolio AlphaDev
-              </p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.href, link.id)}
+                  className={`text-left px-4 py-3 rounded-lg font-medium transition
+                    ${
+                      activeSection === link.id
+                        ? "bg-accent/10 text-accent"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }
+                  `}
+                >
+                  {link.name}
+                </button>
+              ))}
             </div>
           </div>
         </div>
-      )}
-
-      {/* Overlay semi-transparent quand le menu est ouvert */}
-      {isMenuOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black/30 z-40"
-          onClick={() => setIsMenuOpen(false)}
-        />
       )}
     </nav>
   );
