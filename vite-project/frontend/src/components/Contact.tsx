@@ -18,12 +18,13 @@ const Contact = () => {
     setLoading(true);
     setError("");
     setSuccess(false);
+    
 
     try {
       console.log("Envoi en cours vers le backend...");
       
       const response = await axios.post('http://localhost:5000/send', formData, {
-        timeout: 15000, // 15 secondes timeout
+        timeout: 15000, 
       });
       
       console.log("Réponse du backend:", response.data);

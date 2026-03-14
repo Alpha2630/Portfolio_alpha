@@ -15,7 +15,21 @@ app.use(cors({
 }));
 
 app.use(express.json());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://portfolio-alphatech.vercel.app'
+];
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 // Configurer le transporteur email
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -30,6 +44,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+
+app.use(express.json());
+app.get('/api/test', (req, res) => {
+  res.json({ success: true, message: 'API fonctionnelle' });
+});
 // Vérifier la connexion email
 transporter.verify((error, success) => {
   if (error) {
@@ -208,3 +227,4 @@ app.listen(PORT, () => {
   console.log(`📧 Email configuré pour: ${process.env.EMAIL_USER}`);
   console.log(`🌍 CORS autorisé pour: ${process.env.CORS_ORIGIN}`);
 });
+module.exports = app;
