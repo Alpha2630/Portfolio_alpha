@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { apiEndpoints } from '../config/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,11 +20,11 @@ const Contact = () => {
     setError("");
     setSuccess(false);
     
-
     try {
       console.log("Envoi en cours vers le backend...");
       
-      const response = await axios.post('http://localhost:5000/send', formData, {
+      // Utilisation de apiEndpoints au lieu de l'URL en dur
+      const response = await axios.post(apiEndpoints.contact.send, formData, {
         timeout: 15000, 
       });
       
@@ -51,7 +52,7 @@ const Contact = () => {
       if (err.response) {
         setError(err.response.data?.message || `Erreur serveur (${err.response.status})`);
       } else if (err.request) {
-        setError("Le serveur ne répond pas. Vérifiez que le backend est démarré (localhost:5000)");
+        setError("Le serveur ne répond pas. Vérifiez que le backend est démarré");
       } else {
         setError("Erreur: " + err.message);
       }
