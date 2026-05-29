@@ -32,7 +32,7 @@ const Experience = () => {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-accent" />
-                    <span className="text-sm font-semibold text-accent">2023 - Présent</span>
+                    <span className="text-sm font-semibold text-accent">2026 - Présent</span>
                   </div>
                   <h4 className="text-xl font-bold mb-2">Licence 2 en Informatique</h4>
                   <p className="text-gray-600 dark:text-gray-300 mb-3">
@@ -58,11 +58,11 @@ const Experience = () => {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm font-semibold text-gray-500">2022</span>
+                    <span className="text-sm font-semibold text-gray-500">2024</span>
                   </div>
                   <h4 className="text-xl font-bold mb-2">Baccalauréat Scientifique</h4>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Obtention du baccalauréat avec spécialité Mathématiques et Sciences physiques.
+                    Obtention du baccalauréat scientifique, bonne base en mathématique et en physique.
                   </p>
                 </div>
               </div>
@@ -81,7 +81,7 @@ const Experience = () => {
             {/* Langues */}
             <div className="space-y-6 mb-10">
               {[
-                { language: "Français", level: "Langue maternelle", levelText: "Natif", color: "bg-blue-500" },
+                { language: "Français", level: "Bonne maîtrise", levelText: "Natif", color: "bg-blue-500" },
                 { language: "Malgache", level: "Langue maternelle", levelText: "Natif", color: "bg-green-500" },
                 { language: "Anglais", level: "Intermédiaire", levelText: "B1/B2", color: "bg-purple-500" },
                 { language: "Allemand", level: "Débutant", levelText: "A1/A2", color: "bg-orange-500" }
