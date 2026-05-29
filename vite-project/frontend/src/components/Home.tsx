@@ -69,7 +69,7 @@ const Home = () => {
               
               <div className="absolute -bottom-3 -right-3 md:bottom-10 md:-right-6 bg-primary text-white px-5 py-3 rounded-xl shadow-xl">
                 <span className="font-bold text-lg">Developer</span>
-                <p className="text-xs">CS Student</p>
+                {/* <p className="text-xs">CS Student</p> */}
               </div>
               
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-medium md:hidden">
