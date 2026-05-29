@@ -9,14 +9,14 @@ const Navbar = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const navLinks = [
-    { name: "Accueil", href: "#", id: "home" },
-    { name: "À propos", href: "#apropos", id: "apropos" },
-    { name: "Expériences", href: "#experiences", id: "experiences" },
-    { name: "Projets", href: "#projets", id: "projets" },
+    { name: "Home", href: "#", id: "home" },
+    { name: "About", href: "#apropos", id: "apropos" },
+    { name: "Experience", href: "#experiences", id: "experiences" },
+    { name: "Projects", href: "#projets", id: "projets" },
     { name: "Contact", href: "#contact", id: "contact" },
   ];
 
-  // Intersection Observer pour détecter la section active
+  // Intersection Observer to detect active section
   useEffect(() => {
     const options = {
       root: null,
@@ -34,7 +34,7 @@ const Navbar = () => {
 
     observerRef.current = new IntersectionObserver(handleIntersect, options);
 
-    // Observer chaque section
+    // Observe each section
     navLinks.forEach((link) => {
       const element = document.getElementById(link.id);
       if (element) {
@@ -49,12 +49,12 @@ const Navbar = () => {
     };
   }, []);
 
-  // Reset à "home" quand on scroll tout en haut
+  // Reset to "home" when scrolling to the top
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
       
-      // Si on est tout en haut, on est sur "home"
+      // If at the very top, we're on "home"
       if (window.scrollY < 50) {
         setActiveSection("home");
       }
@@ -84,12 +84,12 @@ const Navbar = () => {
         behavior: "smooth"
       });
       
-      // Met à jour la section active après le clic
+      // Update active section after click
       setActiveSection(id);
     }
   };
 
-  // Fermer le menu en cliquant en dehors
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -143,7 +143,7 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent rounded-full animate-pulse" />
               )}
               
-              {/* Indicateur hover */}
+              {/* Hover indicator */}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent/30 rounded-full transition-all duration-300 group-hover:w-full" />
             </button>
           ))}
@@ -153,7 +153,7 @@ const Navbar = () => {
         <button
           onClick={() => setIsMenuOpen(true)}
           className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          aria-label="Ouvrir le menu"
+          aria-label="Open menu"
         >
           <Menu className="w-6 h-6" />
         </button>
@@ -182,7 +182,7 @@ const Navbar = () => {
               <button 
                 onClick={() => setIsMenuOpen(false)}
                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
-                aria-label="Fermer le menu"
+                aria-label="Close menu"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -209,7 +209,7 @@ const Navbar = () => {
               ))}
             </div>
             
-            {/* Footer du menu mobile */}
+            {/* Mobile menu footer */}
             <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-800">
               <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                 © {new Date().getFullYear()} AlphaTech
