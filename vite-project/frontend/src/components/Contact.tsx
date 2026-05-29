@@ -21,14 +21,13 @@ const Contact = () => {
     setSuccess(false);
     
     try {
-      console.log("Envoi en cours vers le backend...");
+      console.log("Sending to backend...");
       
-      // Utilisation de apiEndpoints au lieu de l'URL en dur
       const response = await axios.post(apiEndpoints.contact.send, formData, {
         timeout: 15000, 
       });
       
-      console.log("Réponse du backend:", response.data);
+      console.log("Backend response:", response.data);
 
       if (response.data.success) {
         setSuccess(true);
@@ -43,18 +42,18 @@ const Contact = () => {
           setSuccess(false);
         }, 8000);
       } else {
-        setError(response.data.message || "Erreur inconnue");
+        setError(response.data.message || "Unknown error");
       }
       
     } catch (err: any) {
-      console.error("Erreur complète:", err);
+      console.error("Full error:", err);
       
       if (err.response) {
-        setError(err.response.data?.message || `Erreur serveur (${err.response.status})`);
+        setError(err.response.data?.message || `Server error (${err.response.status})`);
       } else if (err.request) {
-        setError("Le serveur ne répond pas. Vérifiez que le backend est démarré");
+        setError("Server is not responding. Please check that the backend is running");
       } else {
-        setError("Erreur: " + err.message);
+        setError("Error: " + err.message);
       }
     } finally {
       setLoading(false);
@@ -75,14 +74,14 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-white">
-            Contactez-moi
+            Contact Me
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Parlons de votre projet. Je réponds rapidement et sérieusement.
+            Let's talk about your project. I respond quickly and seriously.
           </p>
         </div>
 
-        {/* Messages d'état */}
+        {/* Status messages */}
         {success && (
           <div className="max-w-2xl mx-auto mb-8 p-6 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-2xl">
             <div className="flex items-center">
@@ -91,10 +90,10 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg text-green-800 dark:text-green-200">
-                  Message envoyé avec succès !
+                  Message sent successfully!
                 </h3>
                 <p className="text-green-700 dark:text-green-300">
-                  Vous recevrez une confirmation par email. Je vous répondrai dans les plus brefs délais.
+                  You'll receive a confirmation email. I'll get back to you as soon as possible.
                 </p>
               </div>
             </div>
@@ -109,7 +108,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg text-red-800 dark:text-red-200">
-                  Erreur d'envoi
+                  Sending error
                 </h3>
                 <p className="text-red-700 dark:text-red-300">
                   {error}
@@ -120,15 +119,15 @@ const Contact = () => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Informations de contact */}
+          {/* Contact information */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
             <h2 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-              Mes coordonnées
+              My Contact Details
             </h2>
 
             <div className="space-y-6">
               <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Email professionnel</h3>
+                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Professional Email</h3>
                 <a 
                   href="mailto:hei.alpha.7@gmail.com" 
                   className="text-lg text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors break-all"
@@ -136,12 +135,12 @@ const Contact = () => {
                   hei.alpha.7@gmail.com
                 </a>
                 <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm">
-                  Réponse garantie sous 24 heures
+                  Guaranteed response within 24 hours
                 </p>
               </div>
 
               <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Téléphone / WhatsApp</h3>
+                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Phone / WhatsApp</h3>
                 <a 
                   href="tel:+261374813725" 
                   className="text-lg text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
@@ -150,26 +149,26 @@ const Contact = () => {
                 </a>
                 <div className="flex gap-2 mt-2">
                   <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-sm rounded-full">
-                    WhatsApp disponible
+                    WhatsApp available
                   </span>
                   <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm rounded-full">
-                    Appel vocal
+                    Voice call
                   </span>
                 </div>
               </div>
 
               <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Localisation</h3>
+                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Location</h3>
                 <p className="text-lg text-gray-800 dark:text-white">Madagascar</p>
                 <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm">
-                  Spécialisé en collaborations à distance internationales
+                  Specialized in international remote collaboration
                 </p>
               </div>
 
               <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-                <h3 className="font-bold text-lg mb-3 text-gray-800 dark:text-white">Contact rapide</h3>
+                <h3 className="font-bold text-lg mb-3 text-gray-800 dark:text-white">Quick Contact</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Pour une réponse plus rapide, contactez-moi directement sur WhatsApp :
+                  For a faster response, reach out to me directly on WhatsApp:
                 </p>
                 <a 
                   href="https://wa.me/261374813725" 
@@ -177,23 +176,23 @@ const Contact = () => {
                   rel="noopener noreferrer"
                   className="inline-block w-full text-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
                 >
-                  Ouvrir WhatsApp
+                  Open WhatsApp
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Formulaire de contact */}
+          {/* Contact form */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
             <h2 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-              Envoyez-moi un message
+              Send Me a Message
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                    Votre nom *
+                    Your name *
                   </label>
                   <input
                     type="text"
@@ -203,14 +202,14 @@ const Contact = () => {
                     required
                     minLength={2}
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                    placeholder="Votre nom complet"
+                    placeholder="Your full name"
                     disabled={loading}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                    Votre email *
+                    Your email *
                   </label>
                   <input
                     type="email"
@@ -219,7 +218,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                    placeholder="votre@email.com"
+                    placeholder="your@email.com"
                     disabled={loading}
                   />
                 </div>
@@ -227,7 +226,7 @@ const Contact = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  Sujet *
+                  Subject *
                 </label>
                 <input
                   type="text"
@@ -237,14 +236,14 @@ const Contact = () => {
                   required
                   minLength={3}
                   className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                  placeholder="Sujet de votre message"
+                  placeholder="Subject of your message"
                   disabled={loading}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                  Votre message *
+                  Your message *
                 </label>
                 <textarea
                   name="message"
@@ -254,7 +253,7 @@ const Contact = () => {
                   minLength={10}
                   rows={6}
                   className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none transition-colors"
-                  placeholder="Décrivez votre projet, vos besoins ou posez vos questions..."
+                  placeholder="Describe your project, needs, or ask your questions..."
                   disabled={loading}
                 />
               </div>
@@ -267,24 +266,24 @@ const Contact = () => {
                 {loading ? (
                   <div className="flex items-center justify-center gap-3">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Envoi en cours...
+                    Sending...
                   </div>
                 ) : (
-                  "Envoyer le message"
+                  "Send Message"
                 )}
               </button>
 
               <p className="text-center text-sm text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-200 dark:border-gray-700">
-                Vous recevrez une confirmation par email. Vos informations sont sécurisées.
+                You'll receive a confirmation email. Your information is secure.
               </p>
             </form>
           </div>
         </div>
 
-        {/* Section réseaux */}
+        {/* Social section */}
         <div className="mt-20 text-center">
           <h3 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-            Autres moyens de contact
+            Other Ways to Reach Me
           </h3>
           
           <div className="flex justify-center gap-8">
@@ -292,7 +291,7 @@ const Contact = () => {
               href="mailto:hei.alpha.7@gmail.com"
               className="px-8 py-4 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-medium rounded-lg transition-colors border border-blue-200 dark:border-blue-800"
             >
-              Envoyer un email
+              Send an Email
             </a>
             
             <a 
@@ -306,8 +305,8 @@ const Contact = () => {
           </div>
           
           <p className="mt-8 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Je suis sérieux dans mon travail et je réponds rapidement à toutes les demandes professionnelles.
-            N'hésitez pas à me contacter pour discuter de vos projets web, robotiques ou de développement.
+            I'm serious about my work and I respond quickly to all professional inquiries.
+            Feel free to reach out to discuss your web development projects or collaboration opportunities.
           </p>
         </div>
       </div>
