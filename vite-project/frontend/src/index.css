@@ -2,8 +2,118 @@
 
 
 @tailwind base;
-@tailwind components;
+@tailwind utilities;
 @tailwind utilities;
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cupcake;
 }
+/* ===== ANIMATIONS IRON MAN POUR LA HOME ===== */
+
+/* Balayage diagonal - descendante */
+@keyframes sweep-down {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animate-sweep-down {
+  animation: sweep-down 8s ease-in-out infinite;
+}
+
+/* Balayage diagonal - ascendante */
+@keyframes sweep-up {
+  0% {
+    transform: translateX(100%) translateY(100%) rotate(-45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(-100%) translateY(-100%) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+.animate-sweep-up {
+  animation: sweep-up 8s ease-in-out infinite;
+}
+
+/* Pulsation du cercle Arc Reactor */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 4s ease-in-out infinite;
+}
+
+.animate-pulse-ring-delayed {
+  animation: pulse-ring 4s ease-in-out infinite 2s;
+}
+
+/* Glow pulsant */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Particules flottantes */
+@keyframes float-particle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px) scale(1.5);
+    opacity: 0.8;
+  }
+}
+
+.animate-float-particle {
+  animation: float-particle 4s ease-in-out infinite;
+}
+
+/* Delays */
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1200 { animation-delay: 1.2s; }
+.delay-1500 { animation-delay: 1.5s; }

@@ -5,5 +5,8 @@
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm install && npm run build",
     "preview": "cd frontend && npm run preview"
+  },
+  "dependencies": {
+    "react-icons": "^5.7.0"
   }
 }

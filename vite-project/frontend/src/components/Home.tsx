@@ -3,8 +3,51 @@ import Profil from "../assets/font/alpha_cv.png"
 
 const Home = () => {
   return (
-    <section className="py-10 md:py-20 px-4 md:px-8">
-      <div className="container mx-auto">
+    <section className="relative py-10 md:py-20 px-4 md:px-8 bg-bg-primary overflow-hidden">
+      
+      {/* ════════════════════════════════════════ */}
+      {/* ANIMATIONS IRON MAN EN ARRIÈRE-PLAN  */}
+      {/* ════════════════════════════════════════ */}
+      
+      {/* Lignes lumineuses diagonales */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Ligne 1 - Diagonal descendante */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-[-20%] left-[-10%] w-[200%] h-[2px] bg-gradient-to-r from-transparent via-royal-light to-transparent rotate-45 animate-sweep-down opacity-40" />
+          <div className="absolute top-[-10%] left-[-5%] w-[180%] h-[1px] bg-gradient-to-r from-transparent via-royal-light/30 to-transparent rotate-45 animate-sweep-down delay-300 opacity-30" />
+          <div className="absolute top-[10%] left-[-15%] w-[150%] h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent rotate-45 animate-sweep-down delay-600 opacity-20" />
+        </div>
+
+        {/* Ligne 2 - Diagonal ascendante */}
+        <div className="absolute bottom-0 right-0 w-full h-full">
+          <div className="absolute bottom-[-20%] right-[-10%] w-[200%] h-[2px] bg-gradient-to-l from-transparent via-royal-light to-transparent -rotate-45 animate-sweep-up opacity-40" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[180%] h-[1px] bg-gradient-to-l from-transparent via-royal-light/30 to-transparent -rotate-45 animate-sweep-up delay-400 opacity-30" />
+          <div className="absolute bottom-[10%] right-[-15%] w-[150%] h-[1px] bg-gradient-to-l from-transparent via-gold/20 to-transparent -rotate-45 animate-sweep-up delay-700 opacity-20" />
+        </div>
+      </div>
+
+      {/* Cercle lumineux (effet Arc Reactor) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="w-[600px] h-[600px] rounded-full border border-royal/10 animate-pulse-ring" />
+        <div className="absolute inset-0 w-[600px] h-[600px] rounded-full border border-royal/5 animate-pulse-ring-delayed" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-royal/5 blur-3xl animate-pulse-glow" />
+      </div>
+
+      {/* Particules lumineuses */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[20%] left-[10%] w-1 h-1 bg-royal-light rounded-full animate-float-particle" />
+        <div className="absolute top-[60%] right-[15%] w-1.5 h-1.5 bg-gold/50 rounded-full animate-float-particle delay-300" />
+        <div className="absolute top-[40%] left-[5%] w-0.5 h-0.5 bg-royal-light rounded-full animate-float-particle delay-600" />
+        <div className="absolute top-[70%] left-[30%] w-1 h-1 bg-gold/30 rounded-full animate-float-particle delay-900" />
+        <div className="absolute top-[30%] right-[20%] w-0.5 h-0.5 bg-royal-light rounded-full animate-float-particle delay-1200" />
+        <div className="absolute top-[80%] right-[40%] w-1 h-1 bg-gold/20 rounded-full animate-float-particle delay-1500" />
+      </div>
+
+      {/* ════════════════════════════════════════ */}
+      {/* CONTENU PRINCIPAL (INCHANGÉ) */}
+      {/* ════════════════════════════════════════ */}
+      
+      <div className="container mx-auto relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-8 lg:gap-12">
 
           <div className="w-full md:w-1/2 md:order-1 order-2">
@@ -69,7 +112,6 @@ const Home = () => {
               
               <div className="absolute -bottom-3 -right-3 md:bottom-10 md:-right-6 bg-primary text-white px-5 py-3 rounded-xl shadow-xl">
                 <span className="font-bold text-lg">Developer</span>
-                {/* <p className="text-xs">CS Student</p> */}
               </div>
               
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-medium md:hidden">
@@ -78,8 +120,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-
-
       </div>
     </section>
   );
