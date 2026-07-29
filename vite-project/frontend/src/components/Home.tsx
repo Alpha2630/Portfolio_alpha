@@ -184,7 +184,7 @@ const Home = () => {
               </h1>
 
               <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
-                Computer Science student (L2) in Digital Transformation. I build modern web
+                Computer Science student in Digital Transformation. I build modern web
                 experiences today, with the dream of exploring robotics tomorrow. Currently
                 focused on creating clean, functional interfaces.
               </p>
