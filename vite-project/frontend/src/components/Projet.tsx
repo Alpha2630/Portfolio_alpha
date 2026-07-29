@@ -1,17 +1,14 @@
 import { useEffect, useRef } from "react";
 import {
-  GraduationCap, Code2, Globe, Users, Calendar,
-  Target, Rocket, Brain, Sparkles
+  ExternalLink,
+  Github,
+  Code2,
+  Globe,
+  Zap,
+  ShoppingCart,
+  Users,
+  Rocket,
 } from "lucide-react";
-import { FaJava } from "react-icons/fa";
-import {
-  SiReact, SiTypescript, SiJavascript, SiTailwindcss,
-  SiVite, SiMongodb, SiExpress, SiNodedotjs,
-  SiGit, SiGithub, SiDocker, SiVercel,
-  SiHtml5, SiCss,
-  SiPython,
-  SiBootstrap, SiPostgresql
-} from "react-icons/si";
 
 interface Particle {
   x: number;
@@ -23,7 +20,8 @@ interface Particle {
 }
 
 /**
- * AmbientNetwork - Fond animé
+ * AmbientNetwork
+ * Réseau de particules pour l'arrière-plan (même que sur About/Experience)
  */
 const AmbientNetwork = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -157,333 +155,221 @@ const AmbientNetwork = () => {
   );
 };
 
-/**
- * GlobeSkills - Globe 3D en perspective (vue de face) + Ticker horizontal
- */
-const GlobeSkills = () => {
-  const skills = [
-    { name: "React", icon: SiReact, color: "#61DAFB" },
-    { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-    { name: "Vite", icon: SiVite, color: "#646CFF" },
-    { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-    { name: "Express", icon: SiExpress, color: "#FFFFFF" },
-    { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-    { name: "Git", icon: SiGit, color: "#F05032" },
-    { name: "GitHub", icon: SiGithub, color: "#FFFFFF" },
-    { name: "Docker", icon: SiDocker, color: "#2496ED" },
-    { name: "Vercel", icon: SiVercel, color: "#FFFFFF" },
-    { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
-    { name: "CSS3", icon: SiCss, color: "#1572B6" },
-    { name: "Python", icon: SiPython, color: "#3776AB" },
-    { name: "Java", icon: FaJava, color: "#007396" },
-    { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
-    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+const Projects = () => {
+  const projects = [
+    {
+      title: "Personal Portfolio Website",
+      description:
+        "A modern, responsive portfolio website built to showcase web development skills and projects with dark mode support.",
+      tags: ["React", "Tailwind CSS", "TypeScript", "Framer Motion"],
+      icon: <Globe className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "E-Commerce Product Page",
+      description:
+        "A fully responsive product page with image gallery, cart functionality, and smooth checkout flow.",
+      tags: ["JavaScript", "React", "LocalStorage", "Responsive"],
+      icon: <ShoppingCart className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Task Management Dashboard",
+      description:
+        "A Kanban-style dashboard for managing daily tasks with drag-and-drop functionality and local storage.",
+      tags: ["React", "Tailwind", "Drag & Drop", "Context API"],
+      icon: <Code2 className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Weather App",
+      description:
+        "A weather application that fetches real-time data from an API and displays forecasts with dynamic backgrounds.",
+      tags: ["JavaScript", "API REST", "CSS3", "Geolocation"],
+      icon: <Zap className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Student Management System",
+      description:
+        "A CRUD application for managing student records with search, filter, and data validation features.",
+      tags: ["Java", "MySQL", "Swing", "MVC Pattern"],
+      icon: <Users className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Landing Page Design",
+      description:
+        "A conversion-focused landing page with modern design, animations, and a lead capture form.",
+      tags: ["HTML/CSS", "Bootstrap", "JavaScript", "AOS"],
+      icon: <Globe className="w-8 h-8" />,
+      github: "#",
+      live: "#",
+      image:
+        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
   ];
 
-  // Dupliquer pour l'effet de défilement infini du ticker
-  const doubledNames = [...skills, ...skills, ...skills];
-
   return (
-    <div className="flex flex-col items-center gap-8">
-      {/* Globe 3D - Vue de face avec perspective */}
-      <div className="relative w-80 h-80 md:w-96 md:h-96">
-        <div 
-          className="w-full h-full" 
-          style={{ perspective: '800px' }}
-        >
-          <div 
-            className="w-full h-full animate-sphere-rotate"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {skills.map((skill, index) => {
-              const Icon = skill.icon;
-              const angle = (index / skills.length) * Math.PI * 2;
-              const radius = 130;
-              // Position en 3D avec effet de profondeur
-              const x = Math.sin(angle) * radius;
-              const z = Math.cos(angle) * radius;
-              // Calcul de l'échelle basée sur la profondeur (z)
-              const scale = 0.5 + (z / radius + 1) / 2 * 0.7;
-              // Opacité basée sur la profondeur
-              const opacity = 0.4 + (z / radius + 1) / 2 * 0.6;
-              // Taille du cercle de fond
-              const size = 44 + (z / radius + 1) / 2 * 16;
-              
-              return (
-                <div
-                  key={index}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    transform: `translate3d(${x}px, 0, ${z}px) rotateY(${-angle}rad)`,
-                    transformStyle: 'preserve-3d',
-                    scale: scale,
-                    opacity: opacity,
-                  }}
-                >
-                  <div 
-                    className="flex items-center justify-center rounded-full bg-bg-card/60 backdrop-blur-sm border border-gold/10 shadow-lg shadow-royal/10 transition-all duration-300 hover:scale-110 hover:border-gold/40"
-                    style={{
-                      width: size,
-                      height: size,
-                    }}
-                  >
-                    <Icon
-                      className="w-6 h-6 md:w-7 md:h-7"
-                      style={{ color: skill.color }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        
-        {/* Cercle central (Arc Reactor) */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border-2 border-royal/20 animate-pulse-ring" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-royal/15 rounded-full blur-2xl animate-pulse-glow" />
-        
-        {/* Points lumineux sur le cercle (effet orbital) */}
-        {[...Array(12)].map((_, i) => {
-          const angle = (i / 12) * Math.PI * 2;
-          const radius = 155;
-          return (
-            <div
-              key={`orbit-${i}`}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-gold/40 animate-pulse-led"
-              style={{
-                transform: `translate(${Math.cos(angle) * radius}px, ${Math.sin(angle) * radius}px)`,
-                animationDelay: `${i * 0.15}s`
-              }}
-            />
-          );
-        })}
-      </div>
+    <section id="projets" className="relative py-16 md:py-24 px-4 md:px-8 bg-bg-primary overflow-hidden">
 
-      {/* Ticker horizontal des noms */}
-      <div className="relative w-full overflow-hidden py-4 border-y border-gold/10">
-        <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-bg-primary to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-bg-primary to-transparent pointer-events-none z-10" />
-        
-        <div className="flex animate-ticker-horizontal whitespace-nowrap">
-          {doubledNames.map((skill, index) => (
-            <span
-              key={index}
-              className="mx-6 text-sm md:text-base font-medium text-text-secondary hover:text-gold transition-colors duration-300 cursor-default"
-            >
-              {skill.name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Experience = () => {
-  return (
-    <section id="experiences" className="py-16 md:py-24 px-4 md:px-8 bg-bg-primary relative overflow-hidden">
-      {/* Fond avec effet Iron Man */}
-      <div className="absolute inset-0 bg-gradient-to-b from-royal/5 via-transparent to-royal/5" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-royal/10 blur-3xl" />
-
-      {/* Fond animé : réseau ambiant */}
+      {/* ===== FOND ANIMÉ : RÉSEAU AMBIANT ===== */}
       <div className="absolute inset-0 pointer-events-none">
         <AmbientNetwork />
       </div>
 
+      {/* Effets de fond */}
+      <div className="absolute inset-0 bg-gradient-to-b from-royal/5 via-transparent to-royal/5" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-royal/10 blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gold/5 blur-3xl" />
+
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            My <span className="text-gold">Journey</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-text-primary">
+            My <span className="text-gold">Projects</span>
           </h2>
           <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto">
-            Education, language skills, and professional goals
+            Discover my web development projects, where I build practical
+            solutions while learning new technologies
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left column - Academic background */}
-          <div>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20">
-                <GraduationCap className="w-6 h-6 text-gold" />
+        {/* Filters - Style premium */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <button className="px-5 py-2 rounded-full bg-gold text-bg-primary font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-gold/20">
+            All
+          </button>
+          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
+            React
+          </button>
+          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
+            JavaScript
+          </button>
+          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
+            HTML/CSS
+          </button>
+          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
+            Java
+          </button>
+        </div>
+
+        {/* Projects grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <div
+              key={index}
+              className="group bg-gradient-to-br from-royal/10 to-gold/5 rounded-2xl overflow-hidden border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-royal/10"
+            >
+              {/* Project image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 to-transparent"></div>
+                <div className="absolute top-4 right-4 w-12 h-12 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20 group-hover:border-gold/50 transition-all">
+                  <div className="text-gold">
+                    {project.icon}
+                  </div>
+                </div>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-text-primary">
-                Academic <span className="text-gold">Background</span>
+
+              {/* Project content */}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-text-primary mb-3 group-hover:text-gold transition-colors">
+                  {project.title}
+                </h3>
+
+                <p className="text-text-secondary mb-4 text-sm leading-relaxed">
+                  {project.description}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-3 py-1 bg-royal/20 text-gold-light text-xs rounded-full border border-gold/10"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex gap-3">
+                  <a
+                    href={project.github}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 rounded-lg transition-all duration-300 text-sm font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Github className="w-4 h-4" />
+                    Code
+                  </a>
+                  <a
+                    href={project.live}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-gold to-gold-light text-bg-primary font-medium rounded-lg hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 text-sm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Live
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 text-center">
+          <div className="relative bg-gradient-to-br from-royal/20 via-gold/5 to-royal/10 p-8 md:p-12 rounded-2xl max-w-3xl mx-auto border border-gold/20 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-royal/10 via-transparent to-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-royal/10 rounded-full blur-3xl" />
+
+            <div className="relative">
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 bg-royal/20 rounded-full flex items-center justify-center border border-gold/30 group-hover:border-gold/50 transition-all duration-300">
+                  <Rocket className="w-8 h-8 text-gold group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              </div>
+
+              <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                Have a <span className="text-gold">project</span> idea?
               </h3>
-            </div>
 
-            {/* Education timeline */}
-            <div className="relative pl-8 border-l-2 border-gold/30 space-y-8">
-              {/* Current step */}
-              <div className="relative">
-                <div className="absolute -left-11 w-6 h-6 bg-gold rounded-full shadow-lg shadow-gold/30"></div>
-                <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calendar className="w-4 h-4 text-gold" />
-                    <span className="text-sm font-semibold text-gold">2026 - Present</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-text-primary mb-2">Bachelor's in Computer Science (L2)</h4>
-                  <p className="text-text-secondary mb-3">
-                    Digital Transformation track. Building strong foundations in web development while nurturing a passion for robotics.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-royal/20 text-royal-light text-sm rounded-full border border-royal/20">
-                      Web Development
-                    </span>
-                    <span className="px-3 py-1 bg-gold/10 text-gold text-sm rounded-full border border-gold/20">
-                      Programming
-                    </span>
-                    <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-full border border-emerald-500/20">
-                      Digital Transformation
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* High school diploma */}
-              <div className="relative">
-                <div className="absolute -left-11 w-6 h-6 bg-text-secondary/30 rounded-full"></div>
-                <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calendar className="w-4 h-4 text-text-secondary/50" />
-                    <span className="text-sm font-semibold text-text-secondary/50">2024</span>
-                  </div>
-                  <h4 className="text-xl font-bold text-text-primary mb-2">High School Diploma (Scientific)</h4>
-                  <p className="text-text-secondary">
-                    Obtained scientific high school diploma, solid foundation in mathematics and physics.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right column - Skills and languages */}
-          <div>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20">
-                <Globe className="w-6 h-6 text-gold" />
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-text-primary">
-                Language <span className="text-gold">Skills</span>
-              </h3>
-            </div>
-
-            {/* Languages */}
-            <div className="space-y-6 mb-10">
-              {[
-                { language: "Malagasy", level: "Mother tongue", levelText: "Native", color: "from-green-500 to-emerald-400" },
-                { language: "French", level: "Good command", levelText: "Native", color: "from-blue-500 to-blue-400" },
-                { language: "English", level: "Intermediate", levelText: "B1/B2", color: "from-gold to-gold-light" },
-                { language: "German", level: "Beginner", levelText: "A1/A2", color: "from-orange-500 to-orange-400" }
-              ].map((lang, index) => (
-                <div key={index} className="bg-gradient-to-br from-royal/10 to-gold/5 p-5 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-bold text-lg text-text-primary">{lang.language}</span>
-                    <span className="text-sm font-semibold px-3 py-1 rounded-full bg-royal/20 text-text-secondary border border-gold/10">
-                      {lang.levelText}
-                    </span>
-                  </div>
-                  <p className="text-text-secondary text-sm mb-3">{lang.level}</p>
-                  <div className="h-1.5 bg-royal/20 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full bg-gradient-to-r ${lang.color} rounded-full transition-all duration-1000`}
-                      style={{
-                        width: lang.language === "Malagasy" || lang.language === "French" ? "100%" :
-                               lang.language === "English" ? "60%" : "30%"
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-gradient-to-br from-royal/20 to-gold/5 p-6 rounded-xl border border-gold/20">
-              <div className="flex items-center gap-3 mb-4">
-                <Target className="w-6 h-6 text-gold" />
-                <h4 className="text-xl font-bold text-text-primary">Professional Goals</h4>
-              </div>
-              <p className="text-text-secondary mb-4">
-                Master web development today to explore the exciting intersection between digital
-                and robotics tomorrow. Every project brings me closer to this vision.
+              <p className="text-text-secondary mb-6 max-w-lg mx-auto">
+                I'm always open to new opportunities. Let's discuss how we can
+                work together to bring your ideas to life.
               </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-text-secondary">
-                  <Sparkles className="w-4 h-4 text-gold" />
-                  <span>Excel in web development (my current expertise)</span>
-                </li>
-                <li className="flex items-center gap-2 text-text-secondary">
-                  <Rocket className="w-4 h-4 text-gold" />
-                  <span>Explore robotics and automation as a future path</span>
-                </li>
-                <li className="flex items-center gap-2 text-text-secondary">
-                  <Brain className="w-4 h-4 text-gold" />
-                  <span>Build projects bridging digital and physical worlds</span>
-                </li>
-              </ul>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-gold to-gold-light text-bg-primary font-semibold rounded-xl hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 hover:scale-[1.02]"
+              >
+                Let's collaborate
+                <ExternalLink className="w-5 h-5" />
+              </a>
             </div>
-          </div>
-        </div>
-
-        {/* ===== TECHNICAL SKILLS : GLOBE 3D EN PERSPECTIVE + TICKER ===== */}
-        <div className="mt-20">
-          <div className="flex items-center justify-center gap-3 mb-12">
-            <div className="w-14 h-14 bg-gradient-to-br from-royal to-royal/50 rounded-full flex items-center justify-center border border-gold/30 shadow-lg shadow-royal/20">
-              <Code2 className="w-7 h-7 text-gold" />
-            </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-text-primary">
-              Technical <span className="text-gold">Skills</span>
-            </h3>
-          </div>
-
-          <GlobeSkills />
-        </div>
-
-        <div className="mt-20 text-center">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <Users className="w-8 h-8 text-gold" />
-            <h3 className="text-2xl md:text-3xl font-bold text-text-primary">
-              My <span className="text-gold">Approach</span>
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Brain,
-                title: "Active Learning",
-                description: "I build my skills through hands-on projects and personal research, growing as a developer every day."
-              },
-              {
-                icon: Rocket,
-                title: "Adaptability",
-                description: "From web development to robotics, I embrace new technologies with enthusiasm and dedication."
-              },
-              {
-                icon: Target,
-                title: "Long-Term Vision",
-                description: "My current focus on web development is a stepping stone toward my dream: merging digital with robotics."
-              }
-            ].map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <div
-                  key={index}
-                  className="bg-gradient-to-br from-royal/10 to-gold/5 p-8 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10 group"
-                >
-                  <div className="w-14 h-14 bg-royal/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/20 group-hover:border-gold/50 transition-all">
-                    <Icon className="w-7 h-7 text-gold group-hover:scale-110 transition-transform" />
-                  </div>
-                  <h4 className="text-xl font-bold text-text-primary mb-4">{value.title}</h4>
-                  <p className="text-text-secondary">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -491,4 +377,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default Projects;
