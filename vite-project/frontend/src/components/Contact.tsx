@@ -1,11 +1,156 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import axios from "axios"
 import { apiEndpoints } from '../config/api'
 import { 
   Mail, Phone, MapPin, MessageSquare, Send, 
   CheckCircle, XCircle, Loader2, ExternalLink,
-  Github, Linkedin, Twitter
+  Github, Linkedin
 } from "lucide-react"
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  r: number;
+  hue: "gold" | "royal";
+}
+
+/**
+ * AmbientNetwork
+ * Réseau de particules pour l'arrière-plan
+ */
+const AmbientNetwork = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let rafId = 0;
+
+    const GOLD = "212, 175, 55";
+    const ROYAL = "94, 132, 214";
+
+    const PARTICLE_COUNT = 40;
+    const particles: Particle[] = [];
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const seedParticles = () => {
+      particles.length = 0;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.12,
+          vy: (Math.random() - 0.5) * 0.12,
+          r: 1 + Math.random() * 1.6,
+          hue: Math.random() < 0.35 ? "gold" : "royal",
+        });
+      }
+    };
+
+    const LINK_DIST = 130;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+        if (p.y < -20) p.y = height + 20;
+        if (p.y > height + 20) p.y = -20;
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK_DIST) {
+            const opacity = 0.10 * (1 - dist / LINK_DIST);
+            const color = a.hue === "gold" ? GOLD : ROYAL;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = "rgba(" + color + ", " + opacity + ")";
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      particles.forEach((p) => {
+        const color = p.hue === "gold" ? GOLD : ROYAL;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(" + color + ", 0.45)";
+        ctx.fill();
+      });
+    };
+
+    const tick = () => {
+      draw();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    resize();
+    seedParticles();
+
+    if (prefersReducedMotion) {
+      draw();
+    } else {
+      tick();
+    }
+
+    const onResize = () => {
+      resize();
+      seedParticles();
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full"
+      aria-hidden="true"
+    />
+  );
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -74,8 +219,14 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="py-20 px-4 md:px-8 bg-bg-primary relative overflow-hidden">
-      {/* Fond avec effet Iron Man */}
+    <section id="contact" className="relative py-20 px-4 md:px-8 bg-bg-primary overflow-hidden">
+
+      {/* ===== FOND ANIMÉ : RÉSEAU AMBIANT ===== */}
+      <div className="absolute inset-0 pointer-events-none">
+        <AmbientNetwork />
+      </div>
+
+      {/* Effets de fond */}
       <div className="absolute inset-0 bg-gradient-to-b from-royal/5 via-transparent to-royal/5" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-royal/10 blur-3xl" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gold/5 blur-3xl" />
@@ -142,7 +293,7 @@ const Contact = () => {
 
             <div className="space-y-4">
               {/* Email */}
-              <div className="group bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
+              <div className="group bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-royal/20 rounded-lg border border-gold/20 group-hover:border-gold/50 transition-all">
                     <Mail className="w-5 h-5 text-gold" />
@@ -163,7 +314,7 @@ const Contact = () => {
               </div>
 
               {/* Phone */}
-              <div className="group bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
+              <div className="group bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-royal/20 rounded-lg border border-gold/20 group-hover:border-gold/50 transition-all">
                     <Phone className="w-5 h-5 text-gold" />
@@ -189,7 +340,7 @@ const Contact = () => {
               </div>
 
               {/* Location */}
-              <div className="group bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
+              <div className="group bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-royal/20 rounded-lg border border-gold/20 group-hover:border-gold/50 transition-all">
                     <MapPin className="w-5 h-5 text-gold" />
@@ -234,7 +385,7 @@ const Contact = () => {
               </h2>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6 bg-bg-card p-8 rounded-xl border border-gold/10">
+            <form onSubmit={handleSubmit} className="space-y-6 bg-gradient-to-br from-royal/10 to-gold/5 p-8 rounded-xl border border-gold/10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-text-secondary mb-2">
