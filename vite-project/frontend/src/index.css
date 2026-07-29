@@ -289,3 +289,46 @@
 .animate-pulse-wave {
   animation: pulse-wave 5s ease-out infinite;
 }
+
+/* ===== GLOBE 3D - VUE DE FACE ===== */
+@keyframes sphere-rotate {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+.animate-sphere-rotate {
+  animation: sphere-rotate 20s linear infinite;
+}
+.animate-sphere-rotate:hover {
+  animation-play-state: paused;
+}
+
+/* ===== TICKER HORIZONTAL ===== */
+@keyframes ticker-horizontal {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+.animate-ticker-horizontal {
+  animation: ticker-horizontal 15s linear infinite;
+}
+.animate-ticker-horizontal:hover {
+  animation-play-state: paused;
+}
+
+/* ===== GLOW PULSANT ===== */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ===== POINTS LED (orbite) ===== */
+@keyframes pulse-led {
+  0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+.animate-pulse-led {
+  animation: pulse-led 2s ease-in-out infinite;
+}
+

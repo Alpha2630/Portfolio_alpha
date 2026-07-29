@@ -5,6 +5,18 @@
     <link rel="icon" href="/AlphaStack.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AlphaStack</title>
+    <script>
+      // Détecter le thème système
+      if (
+        localStorage.getItem("theme") === "light" ||
+        (!localStorage.getItem("theme") &&
+          window.matchMedia("(prefers-color-scheme: light)").matches)
+      ) {
+        document.documentElement.classList.add("light");
+      } else {
+        document.documentElement.classList.remove("light");
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
