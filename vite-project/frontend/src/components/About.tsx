@@ -1,12 +1,74 @@
-import { Code2, Cpu, Globe, Shield, Users, Zap} from "lucide-react"
+import { Code2, Cpu, Globe, Shield, Users, Zap } from "lucide-react"
 
 const About = () => {
   return (
-    <section id="apropos" className="py-16 md:py-24 px-4 md:px-8 bg-bg-primary relative overflow-hidden">
+    <section id="apropos" className="relative py-16 md:py-24 px-4 md:px-8 bg-bg-primary overflow-hidden">
+
+      {/* ===== ANIMATION CIRCUIT BOARD (NOUVELLE) ===== */}
+
+      {/* Lignes horizontales qui se tracent (effet PCB) */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={`h-${i}`}
+            className="absolute h-[1px] bg-gradient-to-r from-transparent via-royal/40 to-transparent"
+            style={{
+              top: `${15 + i * 20}%`,
+              left: '-10%',
+              width: '120%',
+              animation: `trace-line ${6 + i * 0.5}s ease-in-out infinite`,
+              animationDelay: `${i * 0.8}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Lignes verticales */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(3)].map((_, i) => (
+          <div
+            key={`v-${i}`}
+            className="absolute w-[1px] bg-gradient-to-b from-transparent via-gold/30 to-transparent"
+            style={{
+              left: `${20 + i * 25}%`,
+              top: '-10%',
+              height: '120%',
+              animation: `trace-vertical ${7 + i * 0.5}s ease-in-out infinite`,
+              animationDelay: `${i * 0.6}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Points lumineux qui voyagent sur les pistes (effet "data flow") */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={`dot-${i}`}
+            className="absolute w-1.5 h-1.5 rounded-full bg-royal-light shadow-lg shadow-royal/30 animate-flow-dot"
+            style={{
+              top: `${10 + Math.random() * 80}%`,
+              left: `${5 + Math.random() * 90}%`,
+              animationDelay: `${Math.random() * 4}s`,
+              animationDuration: `${3 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Effet de "trace" qui apparaît/disparaît (flash) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/3 left-1/4 w-32 h-32 rounded-full border-2 border-gold/10 animate-flash-ring" />
+        <div className="absolute bottom-1/3 right-1/4 w-24 h-24 rounded-full border border-royal/10 animate-flash-ring-delayed" />
+      </div>
+
+      {/* Effets de fond existants (gardés) */}
       <div className="absolute inset-0 bg-gradient-to-b from-royal/5 via-transparent to-royal/5" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-royal/10 blur-3xl" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gold/5 blur-3xl" />
-      
+
+      {/* ===== CONTENU PRINCIPAL (INCHANGÉ) ===== */}
+
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -73,7 +135,7 @@ const About = () => {
             </a>
           </div>
 
-          {/* Right side - Skills */}
+          {/* Right side - Skills (INCHANGÉ) */}
           <div>
             <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-6">
               My <span className="text-gold">Skills</span>
@@ -162,7 +224,6 @@ const About = () => {
 
         {/* Vision section */}
         <div className="mt-20 bg-gradient-to-br from-royal/20 to-gold/5 p-8 md:p-12 rounded-2xl border border-gold/20 relative overflow-hidden">
-          {/* Effet de fond */}
           <div className="absolute inset-0 bg-gradient-to-r from-royal/10 via-transparent to-gold/10" />
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
           

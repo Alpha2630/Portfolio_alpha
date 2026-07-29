@@ -267,3 +267,100 @@
 .delay-2000 { animation-delay: 2s; }
 .delay-3000 { animation-delay: 3s; }
 .delay-4000 { animation-delay: 4s; }
+
+/* ===== ANIMATIONS CIRCUIT BOARD (ABOUT) ===== */
+
+/* Traçage horizontal */
+@keyframes trace-line {
+  0% {
+    transform: translateX(-100%) scaleX(0.2);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(100%) scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* Traçage vertical */
+@keyframes trace-vertical {
+  0% {
+    transform: translateY(-100%) scaleY(0.2);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100%) scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* Points voyageurs */
+@keyframes flow-dot {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translate(20px, -10px) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(60px, 20px) scale(1.2);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(100px, -5px) scale(0.8);
+  }
+  100% {
+    transform: translate(120px, 30px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Anneaux flash */
+@keyframes flash-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.animate-flash-ring {
+  animation: flash-ring 4s ease-in-out infinite;
+}
+.animate-flash-ring-delayed {
+  animation: flash-ring 4s ease-in-out infinite 2s;
+}
+
+/* Pulsation dorée (pour le CPU) */
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+  }
+}
+.animate-pulse-gold {
+  animation: pulse-gold 2s ease-in-out infinite;
+}

@@ -1,115 +1,212 @@
+import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
-import Profil from "../assets/font/alpha_cv.png"
+import Profil from "../assets/font/alpha_cv.png";
+
+interface Point3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+const NetworkGlobe = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let rafId = 0;
+    let angle = 0;
+
+    const COLOR_LINE = "56, 189, 248";
+    const COLOR_NODE = "125, 211, 248";
+    const COLOR_RING = "56, 189, 248";
+
+    const POINT_COUNT = 140;
+    const points: Point3D[] = [];
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < POINT_COUNT; i++) {
+      const y = 1 - (i / (POINT_COUNT - 1)) * 2;
+      const radiusAtY = Math.sqrt(1 - y * y);
+      const theta = golden * i;
+      points.push({
+        x: Math.cos(theta) * radiusAtY,
+        y,
+        z: Math.sin(theta) * radiusAtY,
+      });
+    }
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+      const sphereRadius = Math.min(width, height) * 0.3;
+
+      const cosA = Math.cos(angle);
+      const sinA = Math.sin(angle);
+      const tilt = 0.35;
+      const cosT = Math.cos(tilt);
+      const sinT = Math.sin(tilt);
+
+      const projected = points.map((p) => {
+        const x1 = p.x * cosA - p.z * sinA;
+        const z1 = p.x * sinA + p.z * cosA;
+        const y2 = p.y * cosT - z1 * sinT;
+        const z2 = p.y * sinT + z1 * cosT;
+
+        const scale = 1.4 / (1.4 - z2 * 0.9);
+        return {
+          sx: cx + x1 * sphereRadius * scale,
+          sy: cy + y2 * sphereRadius * scale,
+          z: z2,
+        };
+      });
+
+      const ringTilts = [0.15, 0.5, 0.85];
+      ringTilts.forEach((rt, i) => {
+        ctx.beginPath();
+        ctx.ellipse(
+          cx,
+          cy,
+          sphereRadius * (1.55 + i * 0.28),
+          sphereRadius * (0.42 + i * 0.1),
+          rt + angle * 0.15,
+          0,
+          Math.PI * 2
+        );
+        ctx.strokeStyle = "rgba(" + COLOR_RING + ", " + (0.1 - i * 0.02) + ")";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      const LINK_DIST = sphereRadius * 0.62;
+      for (let i = 0; i < projected.length; i++) {
+        for (let j = i + 1; j < projected.length; j++) {
+          const a = projected[i];
+          const b = projected[j];
+          const dx = a.sx - b.sx;
+          const dy = a.sy - b.sy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK_DIST) {
+            const depth = (a.z + b.z) / 2;
+            const opacity = Math.max(
+              0,
+              0.22 * (depth + 1) * (1 - dist / LINK_DIST)
+            );
+            if (opacity <= 0.005) continue;
+            ctx.beginPath();
+            ctx.moveTo(a.sx, a.sy);
+            ctx.lineTo(b.sx, b.sy);
+            ctx.strokeStyle = "rgba(" + COLOR_LINE + ", " + opacity + ")";
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      const sorted = projected.slice().sort((a, b) => a.z - b.z);
+      sorted.forEach((p) => {
+        const depth = (p.z + 1) / 2;
+        const r = 1.1 + depth * 1.6;
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(" + COLOR_NODE + ", " + (0.25 + depth * 0.65) + ")";
+        ctx.fill();
+      });
+    };
+
+    const tick = () => {
+      angle += 0.0016;
+      draw();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    resize();
+    if (prefersReducedMotion) {
+      draw();
+    } else {
+      tick();
+    }
+
+    const onResize = () => resize();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" aria-hidden="true" />
+  );
+};
 
 const Home = () => {
   return (
     <section className="relative min-h-screen py-10 md:py-20 px-4 md:px-8 bg-bg-primary overflow-hidden">
-
-      {/* Animations Iron Man - Arrière-plan */}
-
-      {/* Ligne de scan horizontale */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-iron-blue-light to-transparent animate-scan-line" />
+        <NetworkGlobe />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-iron-blue/10 blur-3xl" />
       </div>
 
-      {/* Ligne de scan verticale */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 w-[2px] h-full bg-gradient-to-b from-transparent via-iron-blue-light to-transparent animate-scan-vertical" />
-      </div>
-
-      {/* Lignes horizontales multiples */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute left-0 w-full h-[1px] bg-iron-blue/10 animate-grid-line"
-            style={{
-              top: `${15 + i * 14}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${4 + i * 0.5}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Lignes diagonales éparpillées */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[10%] left-[-10%] w-[120%] h-[1px] bg-gradient-to-r from-transparent via-iron-blue-light/40 to-transparent rotate-12 animate-diagonal-scan" />
-        <div className="absolute top-[30%] left-[-10%] w-[120%] h-[1px] bg-gradient-to-r from-transparent via-iron-blue-light/20 to-transparent -rotate-6 animate-diagonal-scan delay-1000" />
-        <div className="absolute top-[50%] left-[-10%] w-[120%] h-[1px] bg-gradient-to-r from-transparent via-iron-blue-light/15 to-transparent rotate-20 animate-diagonal-scan delay-2000" />
-        <div className="absolute top-[70%] left-[-10%] w-[120%] h-[1px] bg-gradient-to-r from-transparent via-iron-blue-light/30 to-transparent -rotate-12 animate-diagonal-scan delay-3000" />
-        <div className="absolute top-[90%] left-[-10%] w-[120%] h-[1px] bg-gradient-to-r from-transparent via-iron-blue-light/10 to-transparent rotate-8 animate-diagonal-scan delay-4000" />
-      </div>
-
-      {/* Particules lumineuses */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-iron-blue-light/40 animate-particle"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${3 + Math.random() * 4}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Cercle Iron Man (Arc Reactor) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        <div className="w-[500px] h-[500px] rounded-full border border-iron-blue/20 animate-pulse-ring" />
-        <div className="absolute inset-0 w-[500px] h-[500px] rounded-full border border-iron-blue/10 animate-pulse-ring-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-iron-blue/10 blur-2xl animate-pulse-glow" />
-      </div>
-
-      {/* Effet de cascade de données */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[20%] left-[5%] flex gap-1">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="w-0.5 h-4 bg-iron-blue/30 animate-data-cascade" style={{ animationDelay: `${i * 0.2}s` }} />
-          ))}
-        </div>
-        <div className="absolute top-[40%] right-[10%] flex gap-1">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="w-0.5 h-3 bg-iron-blue/20 animate-data-cascade" style={{ animationDelay: `${i * 0.25 + 1}s` }} />
-          ))}
-        </div>
-        <div className="absolute bottom-[30%] left-[8%] flex gap-1">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="w-0.5 h-5 bg-iron-blue/15 animate-data-cascade" style={{ animationDelay: `${i * 0.15 + 2}s` }} />
-          ))}
-        </div>
-      </div>
-
-      {/* Contenu principal */}
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-8 lg:gap-12">
-
           <div className="w-full md:w-1/2 md:order-1 order-2">
             <div className="text-center md:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text-primary">
-                Web <span className="text-iron-blue-light">Developer</span> & Future <span className="text-iron-blue-light">Roboticist</span>
+                Web <span className="text-iron-blue-light">Developer</span> and Future{" "}
+                <span className="text-iron-blue-light">Roboticist</span>
               </h1>
 
               <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
-                Computer Science student (L2) in Digital Transformation. I build modern web experiences today,
-                with the dream of exploring robotics tomorrow. Currently focused on creating clean, functional interfaces.
+                Computer Science student (L2) in Digital Transformation. I build modern web
+                experiences today, with the dream of exploring robotics tomorrow. Currently
+                focused on creating clean, functional interfaces.
               </p>
 
               <div className="space-y-4 mb-10">
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
-                  <span className="font-medium text-lg text-text-primary">JavaScript, Python, Java, HTML/CSS</span>
+                  <span className="font-medium text-lg text-text-primary">
+                    JavaScript, Python, Java, HTML/CSS
+                  </span>
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
-                  <span className="font-medium text-lg text-text-primary">React, Bootstrap, Tailwind CSS</span>
+                  <span className="font-medium text-lg text-text-primary">
+                    React, Bootstrap, Tailwind CSS
+                  </span>
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
-                  <span className="font-medium text-lg text-text-primary">Passionate about Web Dev & Robotics</span>
+                  <span className="font-medium text-lg text-text-primary">
+                    Passionate about Web Dev and Robotics
+                  </span>
                 </div>
               </div>
 
@@ -139,7 +236,8 @@ const Home = () => {
                   alt="Profile photo"
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                   onError={(e) => {
-                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' text-anchor='middle' dy='.3em' fill='%239ca3af'%3EPhoto%3C/text%3E%3C/svg%3E";
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' text-anchor='middle' dy='.3em' fill='%239ca3af'%3EPhoto%3C/text%3E%3C/svg%3E";
                   }}
                 />
               </div>
