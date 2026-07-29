@@ -111,7 +111,6 @@ const AmbientNetwork = () => {
         ctx.fillStyle = "rgba(" + color + ", 0.55)";
         ctx.fill();
 
-        // halo léger autour de chaque nœud
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(" + color + ", 0.05)";
@@ -203,9 +202,9 @@ const About = () => {
               to life through robotics.
             </p>
 
-            {/* Statistics */}
+            {/* Statistics - Style aligné avec Experience */}
             <div className="grid grid-cols-2 gap-6 mb-10">
-              <div className="bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 group">
+              <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 group">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-royal/20 rounded-lg border border-gold/20 group-hover:border-gold/50 transition-all">
                     <Zap className="w-6 h-6 text-gold" />
@@ -215,7 +214,7 @@ const About = () => {
                 <p className="text-text-secondary">Web projects completed</p>
               </div>
 
-              <div className="bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 group">
+              <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 group">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-royal/20 rounded-lg border border-gold/20 group-hover:border-gold/50 transition-all">
                     <Cpu className="w-6 h-6 text-gold" />
@@ -226,7 +225,7 @@ const About = () => {
               </div>
             </div>
 
-            {/* Bouton corrigé ✅ */}
+            {/* Bouton */}
             <a
               href="#contact"
               className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-gold to-gold-light text-bg-primary font-semibold rounded-xl hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 hover:scale-[1.02]"
@@ -279,7 +278,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* Values section */}
+        {/* Values section - Style aligné avec Experience */}
         <div className="mt-20">
           <h3 className="text-2xl md:text-3xl font-bold text-center text-text-primary mb-12">
             My <span className="text-gold">Values</span>
@@ -307,7 +306,7 @@ const About = () => {
               return (
                 <div
                   key={index}
-                  className="bg-bg-card p-8 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10 group"
+                  className="bg-gradient-to-br from-royal/10 to-gold/5 p-8 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10 group"
                 >
                   <div className="w-16 h-16 bg-royal/20 rounded-full flex items-center justify-center mb-6 border border-gold/20 group-hover:border-gold/50 transition-all group-hover:scale-110">
                     <Icon className="w-8 h-8 text-gold" />
@@ -322,7 +321,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* Vision section */}
+        {/* Vision section - Style aligné avec Experience */}
         <div className="mt-20 bg-gradient-to-br from-royal/20 to-gold/5 p-8 md:p-12 rounded-2xl border border-gold/20 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-royal/10 via-transparent to-gold/10" />
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />

@@ -1,16 +1,164 @@
-import { 
-  GraduationCap, Code2, Globe, Users, Calendar, 
+import { useEffect, useRef } from "react";
+import {
+  GraduationCap, Code2, Globe, Users, Calendar,
   Target, Rocket, Brain, Sparkles
-} from "lucide-react"
-import { FaJava } from 'react-icons/fa'
-import { 
+} from "lucide-react";
+import { FaJava } from "react-icons/fa";
+import {
   SiReact, SiTypescript, SiJavascript, SiTailwindcss,
   SiVite, SiMongodb, SiExpress, SiNodedotjs,
   SiGit, SiGithub, SiDocker, SiVercel,
-  SiHtml5, SiCss,  // ← SiCss au lieu de SiCss3
-  SiPython,        // ← retirer SiJava
+  SiHtml5, SiCss,
+  SiPython,
   SiBootstrap, SiPostgresql
-} from 'react-icons/si'
+} from "react-icons/si";
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  r: number;
+  hue: "gold" | "royal";
+}
+
+/**
+ * AmbientNetwork
+ * Même fond en canvas que sur About/Home : nœuds gold/royal qui dérivent
+ * et se relient entre eux. Version un peu plus discrète (moins dense)
+ * pour ne pas distraire de la grille de compétences techniques.
+ */
+const AmbientNetwork = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let rafId = 0;
+
+    const GOLD = "212, 175, 55";
+    const ROYAL = "94, 132, 214";
+
+    const PARTICLE_COUNT = 40;
+    const particles: Particle[] = [];
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const seedParticles = () => {
+      particles.length = 0;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.12,
+          vy: (Math.random() - 0.5) * 0.12,
+          r: 1 + Math.random() * 1.6,
+          hue: Math.random() < 0.35 ? "gold" : "royal",
+        });
+      }
+    };
+
+    const LINK_DIST = 130;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+        if (p.y < -20) p.y = height + 20;
+        if (p.y > height + 20) p.y = -20;
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK_DIST) {
+            const opacity = 0.10 * (1 - dist / LINK_DIST);
+            const color = a.hue === "gold" ? GOLD : ROYAL;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = "rgba(" + color + ", " + opacity + ")";
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      particles.forEach((p) => {
+        const color = p.hue === "gold" ? GOLD : ROYAL;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(" + color + ", 0.45)";
+        ctx.fill();
+      });
+    };
+
+    const tick = () => {
+      draw();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    resize();
+    seedParticles();
+
+    if (prefersReducedMotion) {
+      draw();
+    } else {
+      tick();
+    }
+
+    const onResize = () => {
+      resize();
+      seedParticles();
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full"
+      aria-hidden="true"
+    />
+  );
+};
 
 const Experience = () => {
   return (
@@ -18,7 +166,12 @@ const Experience = () => {
       {/* Fond avec effet Iron Man */}
       <div className="absolute inset-0 bg-gradient-to-b from-royal/5 via-transparent to-royal/5" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-royal/10 blur-3xl" />
-      
+
+      {/* Fond animé : réseau ambiant */}
+      <div className="absolute inset-0 pointer-events-none">
+        <AmbientNetwork />
+      </div>
+
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -47,7 +200,7 @@ const Experience = () => {
               {/* Current step */}
               <div className="relative">
                 <div className="absolute -left-11 w-6 h-6 bg-gold rounded-full shadow-lg shadow-gold/30"></div>
-                <div className="bg-bg-card p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300">
+                <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-gold" />
                     <span className="text-sm font-semibold text-gold">2026 - Present</span>
@@ -63,7 +216,7 @@ const Experience = () => {
                     <span className="px-3 py-1 bg-gold/10 text-gold text-sm rounded-full border border-gold/20">
                       Programming
                     </span>
-                    <span className="px-3 py-1 bg-purple-500/10 text-purple-400 text-sm rounded-full border border-purple-500/20">
+                    <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-full border border-emerald-500/20">
                       Digital Transformation
                     </span>
                   </div>
@@ -73,7 +226,7 @@ const Experience = () => {
               {/* High school diploma */}
               <div className="relative">
                 <div className="absolute -left-11 w-6 h-6 bg-text-secondary/30 rounded-full"></div>
-                <div className="bg-bg-card p-6 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
+                <div className="bg-gradient-to-br from-royal/10 to-gold/5 p-6 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="w-4 h-4 text-text-secondary/50" />
                     <span className="text-sm font-semibold text-text-secondary/50">2024</span>
@@ -106,7 +259,7 @@ const Experience = () => {
                 { language: "English", level: "Intermediate", levelText: "B1/B2", color: "from-gold to-gold-light" },
                 { language: "German", level: "Beginner", levelText: "A1/A2", color: "from-orange-500 to-orange-400" }
               ].map((lang, index) => (
-                <div key={index} className="bg-bg-card p-5 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
+                <div key={index} className="bg-gradient-to-br from-royal/10 to-gold/5 p-5 rounded-xl border border-gold/5 hover:border-gold/20 transition-all duration-300">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-bold text-lg text-text-primary">{lang.language}</span>
                     <span className="text-sm font-semibold px-3 py-1 rounded-full bg-royal/20 text-text-secondary border border-gold/10">
@@ -115,11 +268,11 @@ const Experience = () => {
                   </div>
                   <p className="text-text-secondary text-sm mb-3">{lang.level}</p>
                   <div className="h-1.5 bg-royal/20 rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full bg-gradient-to-r ${lang.color} rounded-full transition-all duration-1000`}
-                      style={{ 
+                      style={{
                         width: lang.language === "Malagasy" || lang.language === "French" ? "100%" :
-                               lang.language === "English" ? "60%" : "30%" 
+                               lang.language === "English" ? "60%" : "30%"
                       }}
                     />
                   </div>
@@ -127,14 +280,13 @@ const Experience = () => {
               ))}
             </div>
 
-           
             <div className="bg-gradient-to-br from-royal/20 to-gold/5 p-6 rounded-xl border border-gold/20">
               <div className="flex items-center gap-3 mb-4">
                 <Target className="w-6 h-6 text-gold" />
                 <h4 className="text-xl font-bold text-text-primary">Professional Goals</h4>
               </div>
               <p className="text-text-secondary mb-4">
-                Master web development today to explore the exciting intersection between digital 
+                Master web development today to explore the exciting intersection between digital
                 and robotics tomorrow. Every project brings me closer to this vision.
               </p>
               <ul className="space-y-2">
@@ -154,7 +306,6 @@ const Experience = () => {
             </div>
           </div>
         </div>
-
 
         <div className="mt-20">
           <div className="flex items-center justify-center gap-3 mb-12">
@@ -187,25 +338,25 @@ const Experience = () => {
               { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
               { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
             ].map((skill, index) => {
-              const Icon = skill.icon
+              const Icon = skill.icon;
               return (
                 <div
                   key={index}
                   className="group relative aspect-square"
                 >
-                  <div className="relative w-full h-full rounded-xl bg-gradient-to-b from-royal/20 to-bg-card border border-royal/30 p-4 flex flex-col items-center justify-center transition-all duration-500 hover:scale-105 hover:border-gold/40 hover:shadow-2xl hover:shadow-royal/20">
-                    
+                  <div className="relative w-full h-full rounded-xl bg-gradient-to-b from-royal/10 to-royal/0 border border-royal/30 p-4 flex flex-col items-center justify-center transition-all duration-500 hover:scale-105 hover:border-gold/40 hover:shadow-2xl hover:shadow-royal/20">
+
                     <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-royal via-gold/30 to-royal opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl" />
-                    
+
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gold/5 via-transparent to-royal/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
+
                     <div className="relative transition-transform duration-1000 group-hover:rotate-180">
-                      <Icon 
+                      <Icon
                         className="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-500"
                         style={{ color: skill.color }}
                       />
                     </div>
-                    
+
                     <div className="relative mt-3 text-center">
                       <p className="text-xs sm:text-sm font-medium transition-all duration-500 text-text-secondary group-hover:text-gold-light">
                         {skill.name}
@@ -213,10 +364,10 @@ const Experience = () => {
                     </div>
 
                     <div className="absolute bottom-3 left-4 right-4 h-0.5 bg-royal/20 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full rounded-full transition-all duration-1000 group-hover:w-full"
                         style={{
-                          width: '30%',
+                          width: "30%",
                           background: `linear-gradient(90deg, ${skill.color}, ${skill.color}88)`,
                           boxShadow: `0 0 20px ${skill.color}44`
                         }}
@@ -226,7 +377,7 @@ const Experience = () => {
                     <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gold/30 transition-all duration-500" />
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -238,7 +389,7 @@ const Experience = () => {
               My <span className="text-gold">Approach</span>
             </h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
@@ -257,11 +408,11 @@ const Experience = () => {
                 description: "My current focus on web development is a stepping stone toward my dream: merging digital with robotics."
               }
             ].map((value, index) => {
-              const Icon = value.icon
+              const Icon = value.icon;
               return (
-                <div 
-                  key={index} 
-                  className="bg-bg-card p-8 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10 group"
+                <div
+                  key={index}
+                  className="bg-gradient-to-br from-royal/10 to-gold/5 p-8 rounded-xl border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:shadow-xl hover:shadow-royal/10 group"
                 >
                   <div className="w-14 h-14 bg-royal/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/20 group-hover:border-gold/50 transition-all">
                     <Icon className="w-7 h-7 text-gold group-hover:scale-110 transition-transform" />
@@ -271,13 +422,13 @@ const Experience = () => {
                     {value.description}
                   </p>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Experience
+export default Experience;
