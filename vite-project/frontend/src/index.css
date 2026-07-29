@@ -1,18 +1,130 @@
 @import "tailwindcss";
 
-
-@tailwind base;
-@tailwind utilities;
-@tailwind utilities;
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake;
+/* ===== PALETTE DE COULEURS IRON MAN (BLEU UNIQUEMENT) ===== */
+@theme {
+  /* Fond */
+  --color-bg-primary: #080B12;
+  --color-bg-secondary: #101827;
+  --color-bg-card: #1A2332;
+  --color-bg-hover: #243044;
+  
+  /* Bleu Iron Man - Armure */
+  --color-iron-blue: #1E3A8A;
+  --color-iron-blue-light: #2B4A9E;
+  --color-iron-blue-lighter: #3B5DB0;
+  --color-iron-blue-glow: rgba(30, 58, 138, 0.3);
+  --color-iron-blue-glow-strong: rgba(30, 58, 138, 0.5);
+  
+  /* Bleu clair pour les scans */
+  --color-iron-scan: #4A7BD4;
+  --color-iron-scan-light: #6A9BEA;
+  
+  /* Texte */
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  
+  /* Status */
+  --color-status-todo: #1E3A8A;
+  --color-status-progress: #4A7BD4;
+  --color-status-review: #7C3AED;
+  --color-status-done: #10B981;
+  
+  /* Priorités */
+  --color-priority-low: #64748B;
+  --color-priority-medium: #3B82F6;
+  --color-priority-high: #4A7BD4;
+  --color-priority-urgent: #EF4444;
 }
-/* ===== ANIMATIONS IRON MAN POUR LA HOME ===== */
 
-/* Balayage diagonal - descendante */
-@keyframes sweep-down {
+/* ===== STYLES DE BASE ===== */
+@layer base {
+  * {
+    @apply scroll-smooth;
+  }
+  
+  html {
+    @apply bg-bg-primary;
+  }
+  
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    background-image: 
+      radial-gradient(ellipse at 50% 0%, rgba(30, 58, 138, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse at 80% 50%, rgba(30, 58, 138, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  /* Scrollbar - Bleu Iron Man */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-iron-blue-light rounded-full;
+    background: linear-gradient(180deg, #1E3A8A, #2B4A9E);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #2B4A9E, #3B5DB0);
+  }
+}
+
+/* ===== ANIMATIONS TECH - STYLE IRON MAN BLEU ===== */
+
+/* Scan horizontal - Bleu */
+@keyframes scan-line {
   0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    top: -5%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+.animate-scan-line {
+  animation: scan-line 6s ease-in-out infinite;
+  background: linear-gradient(to right, transparent, #4A7BD4, transparent);
+}
+
+/* Scan vertical - Bleu */
+@keyframes scan-vertical {
+  0% {
+    left: -5%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    left: 105%;
+    opacity: 0;
+  }
+}
+.animate-scan-vertical {
+  animation: scan-vertical 8s ease-in-out infinite;
+  background: linear-gradient(to bottom, transparent, #4A7BD4, transparent);
+}
+
+/* Lignes de grille - Bleu */
+@keyframes grid-line {
+  0% {
+    transform: translateX(-100%);
     opacity: 0;
   }
   10% {
@@ -22,38 +134,88 @@
     opacity: 0.4;
   }
   100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
+    transform: translateX(100%);
     opacity: 0;
   }
 }
-
-.animate-sweep-down {
-  animation: sweep-down 8s ease-in-out infinite;
+.animate-grid-line {
+  animation: grid-line 6s linear infinite;
+  background: rgba(30, 58, 138, 0.15);
 }
 
-/* Balayage diagonal - ascendante */
-@keyframes sweep-up {
+/* Lignes diagonales - Bleu */
+@keyframes diagonal-scan {
   0% {
-    transform: translateX(100%) translateY(100%) rotate(-45deg);
+    transform: translateX(-100%) translateY(-100%) rotate(var(--rotate, 0deg));
     opacity: 0;
   }
   10% {
-    opacity: 0.4;
+    opacity: 0.5;
   }
   90% {
-    opacity: 0.4;
+    opacity: 0.5;
   }
   100% {
-    transform: translateX(-100%) translateY(-100%) rotate(-45deg);
+    transform: translateX(100%) translateY(100%) rotate(var(--rotate, 0deg));
     opacity: 0;
   }
 }
-
-.animate-sweep-up {
-  animation: sweep-up 8s ease-in-out infinite;
+.animate-diagonal-scan {
+  animation: diagonal-scan 10s ease-in-out infinite;
+  background: linear-gradient(to right, transparent, rgba(74, 123, 212, 0.4), transparent);
 }
 
-/* Pulsation du cercle Arc Reactor */
+/* Particules lumineuses - Bleu */
+@keyframes particle {
+  0% {
+    transform: translateY(0) translateX(0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+    transform: translateY(-20px) translateX(10px) scale(1);
+    background: #4A7BD4;
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-60px) translateX(-10px) scale(0.5);
+    background: #2B4A9E;
+  }
+  100% {
+    transform: translateY(-80px) translateX(20px) scale(0);
+    opacity: 0;
+  }
+}
+.animate-particle {
+  animation: particle 4s ease-in-out infinite;
+}
+
+/* Cascade de données - Bleu */
+@keyframes data-cascade {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+  20% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+}
+.animate-data-cascade {
+  animation: data-cascade 2s ease-in-out infinite;
+  transform-origin: bottom;
+  background: #4A7BD4;
+}
+
+/* Cercle Arc Reactor - Bleu */
 @keyframes pulse-ring {
   0% {
     transform: scale(1);
@@ -68,52 +230,40 @@
     opacity: 0.3;
   }
 }
-
 .animate-pulse-ring {
   animation: pulse-ring 4s ease-in-out infinite;
+  border-color: rgba(30, 58, 138, 0.3);
 }
-
 .animate-pulse-ring-delayed {
   animation: pulse-ring 4s ease-in-out infinite 2s;
+  border-color: rgba(30, 58, 138, 0.15);
 }
 
-/* Glow pulsant */
+/* Glow pulsant - Bleu */
 @keyframes pulse-glow {
   0%, 100% {
-    opacity: 0.3;
+    opacity: 0.2;
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.1);
+    opacity: 0.5;
+    transform: scale(1.2);
   }
 }
-
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+  background: rgba(30, 58, 138, 0.1);
 }
 
-/* Particules flottantes */
-@keyframes float-particle {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(-30px) scale(1.5);
-    opacity: 0.8;
-  }
-}
-
-.animate-float-particle {
-  animation: float-particle 4s ease-in-out infinite;
-}
-
-/* Delays */
+/* ===== DELAYS ===== */
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-600 { animation-delay: 0.6s; }
 .delay-700 { animation-delay: 0.7s; }
 .delay-900 { animation-delay: 0.9s; }
+.delay-1000 { animation-delay: 1s; }
 .delay-1200 { animation-delay: 1.2s; }
 .delay-1500 { animation-delay: 1.5s; }
+.delay-2000 { animation-delay: 2s; }
+.delay-3000 { animation-delay: 3s; }
+.delay-4000 { animation-delay: 4s; }
