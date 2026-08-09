@@ -20,7 +20,7 @@ interface Particle {
 
 /**
  * AmbientNetwork
- * Réseau de particules pour l'arrière-plan (même que sur About/Experience)
+ * Réseau de particules pour l'arrière-plan
  */
 const AmbientNetwork = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -32,7 +32,7 @@ const AmbientNetwork = () => {
     if (!ctx) return;
 
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
 
     let width = 0;
@@ -98,7 +98,7 @@ const AmbientNetwork = () => {
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < LINK_DIST) {
-            const opacity = 0.10 * (1 - dist / LINK_DIST);
+            const opacity = 0.1 * (1 - dist / LINK_DIST);
             const color = a.hue === "gold" ? GOLD : ROYAL;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -162,6 +162,8 @@ const Projects = () => {
         "Un jeu de dactylographie en JavaScript pur, avec clavier virtuel interactif AZERTY et système d'authentification pour suivre sa progression.",
       tags: ["JavaScript", "HTML5", "CSS3", "Vanilla JS"],
       icon: <Keyboard className="w-8 h-8" />,
+      image:
+        "https://images.unsplash.com/photo-1631552638136-6268a113b3c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       github: null,
       live: "https://a-new-typing-game-with-vanilla-js-j-theta.vercel.app/",
     },
@@ -171,6 +173,8 @@ const Projects = () => {
         "Dashboard de surveillance de la qualité de l'air en temps réel pour 5 grandes villes françaises, avec visualisation de données.",
       tags: ["React", "API REST", "Data Viz", "Dashboard"],
       icon: <Wind className="w-8 h-8" />,
+      image:
+        "https://images.unsplash.com/photo-1754373218517-18c577811d0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       github: "https://github.com/Alpha2630/air-quality-dashboard",
       live: "https://air-quality-dashboard-livid.vercel.app/",
     },
@@ -180,6 +184,8 @@ const Projects = () => {
         "Générateur de mots de passe sécurisés avec une interface terminal façon Matrix, pour créer des mots de passe robustes rapidement.",
       tags: ["JavaScript", "Sécurité", "UI Terminal", "CSS3"],
       icon: <Lock className="w-8 h-8" />,
+      image:
+        "https://images.unsplash.com/photo-1774901128302-e2bbd154da44?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       github: null,
       live: "https://cipher-password-generator.vercel.app/",
     },
@@ -189,14 +195,18 @@ const Projects = () => {
         "Site vitrine immersif et cinématographique invitant à la découverte de Madagascar, pensé pour une expérience de voyage sensorielle.",
       tags: ["React", "Animation", "UI/UX", "Storytelling"],
       icon: <Plane className="w-8 h-8" />,
+      image:
+        "https://images.unsplash.com/photo-1570742544137-3a469196c32b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       github: null,
       live: "https://e-karenjy.vercel.app/",
     },
   ];
 
   return (
-    <section id="projets" className="relative py-16 md:py-24 px-4 md:px-8 bg-bg-primary overflow-hidden">
-
+    <section
+      id="projets"
+      className="relative py-16 md:py-24 px-4 md:px-8 bg-bg-primary overflow-hidden"
+    >
       {/* ===== FOND ANIMÉ : RÉSEAU AMBIANT ===== */}
       <div className="absolute inset-0 pointer-events-none">
         <AmbientNetwork />
@@ -226,13 +236,20 @@ const Projects = () => {
               key={index}
               className="group bg-gradient-to-br from-royal/10 to-gold/5 rounded-2xl overflow-hidden border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-royal/10"
             >
-              {/* Project header */}
-              <div className="relative h-40 flex items-center justify-center overflow-hidden bg-gradient-to-br from-royal/20 to-gold/10">
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/60 to-transparent" />
-                <div className="relative w-16 h-16 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20 group-hover:border-gold/50 group-hover:scale-110 transition-all duration-300">
-                  <div className="text-gold">
-                    {project.icon}
-                  </div>
+              {/* Project image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%231A2332'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' text-anchor='middle' dy='.3em' fill='%2394A3B8'%3EProject%3C/text%3E%3C/svg%3E";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/70 via-transparent to-transparent" />
+                <div className="absolute top-4 right-4 w-12 h-12 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20 group-hover:border-gold/50 transition-all duration-300">
+                  <div className="text-gold">{project.icon}</div>
                 </div>
               </div>
 
@@ -273,7 +290,7 @@ const Projects = () => {
                   )}
                   <a
                     href={project.live}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-gold to-gold-light text-bg-primary font-medium rounded-lg hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 text-sm"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-royal to-royal-light text-white font-medium rounded-lg hover:shadow-2xl hover:shadow-royal/30 transition-all duration-300 text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
