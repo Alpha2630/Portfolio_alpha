@@ -2,11 +2,10 @@ import { useEffect, useRef } from "react";
 import {
   ExternalLink,
   Github,
-  Code2,
-  Globe,
-  Zap,
-  ShoppingCart,
-  Users,
+  Keyboard,
+  Wind,
+  Lock,
+  Plane,
   Rocket,
 } from "lucide-react";
 
@@ -158,70 +157,40 @@ const AmbientNetwork = () => {
 const Projects = () => {
   const projects = [
     {
-      title: "Personal Portfolio Website",
+      title: "VanillaTyping",
       description:
-        "A modern, responsive portfolio website built to showcase web development skills and projects with dark mode support.",
-      tags: ["React", "Tailwind CSS", "TypeScript", "Framer Motion"],
-      icon: <Globe className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "Un jeu de dactylographie en JavaScript pur, avec clavier virtuel interactif AZERTY et système d'authentification pour suivre sa progression.",
+      tags: ["JavaScript", "HTML5", "CSS3", "Vanilla JS"],
+      icon: <Keyboard className="w-8 h-8" />,
+      github: null,
+      live: "https://a-new-typing-game-with-vanilla-js-j-theta.vercel.app/",
     },
     {
-      title: "E-Commerce Product Page",
+      title: "Air Quality Dashboard",
       description:
-        "A fully responsive product page with image gallery, cart functionality, and smooth checkout flow.",
-      tags: ["JavaScript", "React", "LocalStorage", "Responsive"],
-      icon: <ShoppingCart className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "Dashboard de surveillance de la qualité de l'air en temps réel pour 5 grandes villes françaises, avec visualisation de données.",
+      tags: ["React", "API REST", "Data Viz", "Dashboard"],
+      icon: <Wind className="w-8 h-8" />,
+      github: "https://github.com/Alpha2630/air-quality-dashboard",
+      live: "https://air-quality-dashboard-livid.vercel.app/",
     },
     {
-      title: "Task Management Dashboard",
+      title: "cipher:// Password Generator",
       description:
-        "A Kanban-style dashboard for managing daily tasks with drag-and-drop functionality and local storage.",
-      tags: ["React", "Tailwind", "Drag & Drop", "Context API"],
-      icon: <Code2 className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "Générateur de mots de passe sécurisés avec une interface terminal façon Matrix, pour créer des mots de passe robustes rapidement.",
+      tags: ["JavaScript", "Sécurité", "UI Terminal", "CSS3"],
+      icon: <Lock className="w-8 h-8" />,
+      github: null,
+      live: "https://cipher-password-generator.vercel.app/",
     },
     {
-      title: "Weather App",
+      title: "Tongasoa eto Madagasikara",
       description:
-        "A weather application that fetches real-time data from an API and displays forecasts with dynamic backgrounds.",
-      tags: ["JavaScript", "API REST", "CSS3", "Geolocation"],
-      icon: <Zap className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Student Management System",
-      description:
-        "A CRUD application for managing student records with search, filter, and data validation features.",
-      tags: ["Java", "MySQL", "Swing", "MVC Pattern"],
-      icon: <Users className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Landing Page Design",
-      description:
-        "A conversion-focused landing page with modern design, animations, and a lead capture form.",
-      tags: ["HTML/CSS", "Bootstrap", "JavaScript", "AOS"],
-      icon: <Globe className="w-8 h-8" />,
-      github: "#",
-      live: "#",
-      image:
-        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "Site vitrine immersif et cinématographique invitant à la découverte de Madagascar, pensé pour une expérience de voyage sensorielle.",
+      tags: ["React", "Animation", "UI/UX", "Storytelling"],
+      icon: <Plane className="w-8 h-8" />,
+      github: null,
+      live: "https://e-karenjy.vercel.app/",
     },
   ];
 
@@ -250,25 +219,6 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* Filters - Style premium */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <button className="px-5 py-2 rounded-full bg-gold text-bg-primary font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-gold/20">
-            All
-          </button>
-          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
-            React
-          </button>
-          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
-            JavaScript
-          </button>
-          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
-            HTML/CSS
-          </button>
-          <button className="px-5 py-2 rounded-full border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 transition-all duration-300 text-sm">
-            Java
-          </button>
-        </div>
-
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
@@ -276,15 +226,10 @@ const Projects = () => {
               key={index}
               className="group bg-gradient-to-br from-royal/10 to-gold/5 rounded-2xl overflow-hidden border border-gold/10 hover:border-gold/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-royal/10"
             >
-              {/* Project image */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 to-transparent"></div>
-                <div className="absolute top-4 right-4 w-12 h-12 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20 group-hover:border-gold/50 transition-all">
+              {/* Project header */}
+              <div className="relative h-40 flex items-center justify-center overflow-hidden bg-gradient-to-br from-royal/20 to-gold/10">
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/60 to-transparent" />
+                <div className="relative w-16 h-16 bg-royal/20 rounded-full flex items-center justify-center border border-gold/20 group-hover:border-gold/50 group-hover:scale-110 transition-all duration-300">
                   <div className="text-gold">
                     {project.icon}
                   </div>
@@ -315,15 +260,17 @@ const Projects = () => {
 
                 {/* Action buttons */}
                 <div className="flex gap-3">
-                  <a
-                    href={project.github}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 rounded-lg transition-all duration-300 text-sm font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="w-4 h-4" />
-                    Code
-                  </a>
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-gold/30 text-text-secondary hover:text-gold hover:border-gold/60 rounded-lg transition-all duration-300 text-sm font-medium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Github className="w-4 h-4" />
+                      Code
+                    </a>
+                  )}
                   <a
                     href={project.live}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-gold to-gold-light text-bg-primary font-medium rounded-lg hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 text-sm"
