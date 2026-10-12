@@ -185,8 +185,9 @@ const Home = () => {
 
               <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
                 Computer Science student in Digital Transformation. I build modern web
-                experiences and business solutions with Odoo and WordPress. Currently
-                focused on creating clean, functional interfaces.
+                experiences and business solutions with Odoo, WordPress and digital
+                marketing. Robotics is my passion on the side. Currently focused on
+                creating clean, functional interfaces.
               </p>
 
               <div className="space-y-4 mb-10">
@@ -205,13 +206,13 @@ const Home = () => {
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
                   <span className="font-medium text-lg text-text-primary">
-                    Odoo, WordPress
+                    Odoo, WordPress, Digital Marketing
                   </span>
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
                   <span className="font-medium text-lg text-text-primary">
-                    Passionate about Web Dev and Odoo
+                    Passionate about Web Dev, Odoo and Robotics
                   </span>
                 </div>
               </div>

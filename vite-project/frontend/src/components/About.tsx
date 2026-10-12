@@ -186,15 +186,15 @@ const About = () => {
             <p className="text-text-secondary mb-6 leading-relaxed">
               Currently in my second year of Computer Science, Digital Transformation track,
               I'm building strong foundations for my tech career. Passionate about
-              web development, I dream of one day exploring the fascinating world
-              of robotics.
+              web development, I'm also building business solutions with Odoo
+              and WordPress.
             </p>
 
             <p className="text-text-secondary mb-8 leading-relaxed">
               My curiosity and thirst for learning push me to exceed my limits every day.
               While my current skills are rooted in web development, my vision extends
-              far beyond: I want to understand how digital technology can bring matter
-              to life through robotics.
+              far beyond: I want to understand how digital technology can streamline
+              and transform businesses through Odoo.
             </p>
 
             {/* Statistics - Style aligné avec Experience */}
@@ -216,7 +216,7 @@ const About = () => {
                   </div>
                   <span className="text-3xl font-bold text-text-primary">∞</span>
                 </div>
-                <p className="text-text-secondary">Passion for robotics</p>
+                <p className="text-text-secondary">Passion for Odoo</p>
               </div>
             </div>
 
@@ -241,7 +241,8 @@ const About = () => {
                 { skill: "Frontend Development", level: 75, icon: Code2, color: "#61DAFB" },
                 { skill: "JavaScript & React", level: 70, icon: Globe, color: "#F7DF1E" },
                 { skill: "HTML & CSS", level: 80, icon: Code2, color: "#E34F26" },
-                { skill: "Robotics (Beginner)", level: 20, icon: Cpu, color: "#00D4FF" },
+                { skill: "Odoo", level: 60, icon: Cpu, color: "#714B67" },
+                { skill: "WordPress", level: 65, icon: Globe, color: "#21759B" },
                 { skill: "Digital Transformation", level: 65, icon: Users, color: "#D4AF37" },
               ].map((item, index) => {
                 const Icon = item.icon;
@@ -328,12 +329,12 @@ const About = () => {
               </h3>
               <p className="text-text-secondary mb-4">
                 As a digital transformation student, I'm preparing to be a driver of change.
-                My goal: master web development today so that tomorrow, I can explore
-                the perfect fusion between digital and robotics.
+                My goal: master web development today so that tomorrow, I can build
+                complete business solutions with Odoo.
               </p>
               <p className="text-text-secondary">
-                I'm convinced that the future belongs to those who can build bridges
-                between virtual and physical worlds. This dual passion will guide
+                I'm convinced that the future belongs to those who can help businesses
+                modernize and digitalize their processes. This passion will guide
                 my professional journey in the years to come.
               </p>
             </div>
