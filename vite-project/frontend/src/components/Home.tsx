@@ -179,13 +179,13 @@ const Home = () => {
           <div className="w-full md:w-1/2 md:order-1 order-2">
             <div className="text-center md:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text-primary">
-                Web <span className="text-iron-blue-light">Developer</span> and Future{" "}
-                <span className="text-iron-blue-light">Roboticist</span>
+                Web <span className="text-iron-blue-light">Developer</span> and{" "}
+                <span className="text-iron-blue-light">Odoo Developer</span>
               </h1>
 
               <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed">
                 Computer Science student in Digital Transformation. I build modern web
-                experiences today, with the dream of exploring robotics tomorrow. Currently
+                experiences and business solutions with Odoo and WordPress. Currently
                 focused on creating clean, functional interfaces.
               </p>
 
@@ -205,7 +205,13 @@ const Home = () => {
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
                   <span className="font-medium text-lg text-text-primary">
-                    Passionate about Web Dev and Robotics
+                    Odoo, WordPress
+                  </span>
+                </div>
+                <div className="flex items-center justify-center md:justify-start gap-3">
+                  <div className="w-3 h-3 bg-iron-blue-light rounded-full shrink-0"></div>
+                  <span className="font-medium text-lg text-text-primary">
+                    Passionate about Web Dev and Odoo
                   </span>
                 </div>
               </div>

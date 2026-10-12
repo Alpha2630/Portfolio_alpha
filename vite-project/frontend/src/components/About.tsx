@@ -10,12 +10,7 @@ interface Particle {
   hue: "gold" | "royal";
 }
 
-/**
- * AmbientNetwork
- * Nuage de particules dorées/royales qui dérivent lentement et se
- * relient entre elles quand elles sont proches, comme une constellation
- * vivante en arrière-plan.
- */
+
 const AmbientNetwork = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
