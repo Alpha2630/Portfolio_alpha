@@ -187,14 +187,16 @@ const About = () => {
               Currently in my second year of Computer Science, Digital Transformation track,
               I'm building strong foundations for my tech career. Passionate about
               web development, I'm also building business solutions with Odoo
-              and WordPress.
+              and WordPress, and developing my digital marketing skills. Robotics
+              is a passion I nurture on the side.
             </p>
 
             <p className="text-text-secondary mb-8 leading-relaxed">
               My curiosity and thirst for learning push me to exceed my limits every day.
               While my current skills are rooted in web development, my vision extends
               far beyond: I want to understand how digital technology can streamline
-              and transform businesses through Odoo.
+              and transform businesses through Odoo and digital marketing. Robotics
+              remains a passion that fuels my curiosity.
             </p>
 
             {/* Statistics - Style aligné avec Experience */}
@@ -216,7 +218,7 @@ const About = () => {
                   </div>
                   <span className="text-3xl font-bold text-text-primary">∞</span>
                 </div>
-                <p className="text-text-secondary">Passion for Odoo</p>
+                <p className="text-text-secondary">Passion for Odoo & robotics</p>
               </div>
             </div>
 
@@ -243,7 +245,9 @@ const About = () => {
                 { skill: "HTML & CSS", level: 80, icon: Code2, color: "#E34F26" },
                 { skill: "Odoo", level: 60, icon: Cpu, color: "#714B67" },
                 { skill: "WordPress", level: 65, icon: Globe, color: "#21759B" },
+                { skill: "Digital Marketing", level: 50, icon: Zap, color: "#FF6B6B" },
                 { skill: "Digital Transformation", level: 65, icon: Users, color: "#D4AF37" },
+                { skill: "Robotics (Beginner)", level: 20, icon: Cpu, color: "#00D4FF" },
               ].map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -330,12 +334,13 @@ const About = () => {
               <p className="text-text-secondary mb-4">
                 As a digital transformation student, I'm preparing to be a driver of change.
                 My goal: master web development today so that tomorrow, I can build
-                complete business solutions with Odoo.
+                complete business solutions with Odoo and WordPress, backed by digital
+                marketing.
               </p>
               <p className="text-text-secondary">
                 I'm convinced that the future belongs to those who can help businesses
-                modernize and digitalize their processes. This passion will guide
-                my professional journey in the years to come.
+                modernize and digitalize their processes. My passion for robotics adds
+                a curious, innovative edge to my professional journey in the years to come.
               </p>
             </div>
             <div className="md:w-1/3 flex justify-center">
@@ -353,5 +358,4 @@ const About = () => {
     </section>
   );
 };
-
 export default About;

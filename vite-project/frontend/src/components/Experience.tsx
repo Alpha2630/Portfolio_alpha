@@ -404,12 +404,15 @@ const Experience = () => {
                   </div>
                   <h4 className="text-xl font-bold text-text-primary mb-2">Bachelor's in Computer Science (L2)</h4>
                   <p className="text-text-secondary mb-3">
-                    Digital Transformation track. Building strong foundations in web development while nurturing a passion for robotics.
+                    Digital Transformation track. Building strong foundations in web development, Odoo and digital marketing, while nurturing a passion for robotics.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-3 py-1 bg-royal/20 text-royal-light text-sm rounded-full border border-royal/20">Web Dev</span>
                     <span className="px-3 py-1 bg-gold/10 text-gold text-sm rounded-full border border-gold/20">Programming</span>
                     <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-full border border-emerald-500/20">Digital Transformation</span>
+                    <span className="px-3 py-1 bg-royal/20 text-royal-light text-sm rounded-full border border-royal/20">Odoo</span>
+                    <span className="px-3 py-1 bg-gold/10 text-gold text-sm rounded-full border border-gold/20">WordPress</span>
+                    <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-full border border-emerald-500/20">Digital Marketing</span>
                   </div>
                 </div>
               </div>
@@ -466,19 +469,23 @@ const Experience = () => {
                 <h4 className="text-xl font-bold text-text-primary">Professional Goals</h4>
               </div>
               <p className="text-text-secondary mb-4">
-                Master web development today to explore the exciting intersection between digital and robotics tomorrow.
+                Master web development, Odoo and digital marketing today, while keeping my passion for robotics alive for the future.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-center gap-2 text-text-secondary">
                   <Sparkles className="w-4 h-4 text-gold" />
-                  <span>Excel in web development (my current expertise)</span>
+                  <span>Excel in web development, Odoo and WordPress (my current expertise)</span>
                 </li>
                 <li className="flex items-center gap-2 text-text-secondary">
                   <Rocket className="w-4 h-4 text-gold" />
-                  <span>Explore robotics and automation as a future path</span>
+                  <span>Grow my digital marketing skills</span>
                 </li>
                 <li className="flex items-center gap-2 text-text-secondary">
                   <Brain className="w-4 h-4 text-gold" />
+                  <span>Explore robotics and automation as a passion</span>
+                </li>
+                <li className="flex items-center gap-2 text-text-secondary">
+                  <Target className="w-4 h-4 text-gold" />
                   <span>Build projects bridging digital and physical worlds</span>
                 </li>
               </ul>
@@ -524,12 +531,12 @@ const Experience = () => {
               {
                 icon: Rocket,
                 title: "Adaptability",
-                description: "From web development to robotics, I embrace new technologies with enthusiasm and dedication."
+                description: "From web development to Odoo and digital marketing, I embrace new technologies with enthusiasm and dedication."
               },
               {
                 icon: Target,
                 title: "Long-Term Vision",
-                description: "My current focus on web development is a stepping stone toward my dream: merging digital with robotics."
+                description: "My current focus on web development, Odoo and digital marketing builds the foundation of my career, while robotics stays a passion I love to explore."
               }
             ].map((item, idx) => {
               const Icon = item.icon;
